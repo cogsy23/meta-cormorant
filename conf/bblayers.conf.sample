@@ -1,0 +1,12 @@
+# CORMORANT_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+CORMORANT_BBLAYERS_CONF_VERSION = "1"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+	##OEROOT##/meta \
+	##OEROOT##/meta-cormorant \
+	##OEROOT##/meta-zephyr \
+	"

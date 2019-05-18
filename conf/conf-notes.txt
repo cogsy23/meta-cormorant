@@ -1,0 +1,11 @@
+### Shell environment set up for builds. ###
+
+You can now run 'bitbake <target>'
+
+Common targets are:
+	...dunno yet
+
+With support for machines:
+	qemu-cortex-m3
+
+You can also run generated qemu images with a command like 'runqemu qemu-cortex-m3'
