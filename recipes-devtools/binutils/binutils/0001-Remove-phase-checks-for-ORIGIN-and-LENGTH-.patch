@@ -1,0 +1,68 @@
+From 60dc5a50783ab84bd275d7db9ed96f60f4645257 Mon Sep 17 00:00:00 2001
+From: Nick Bowler <nbowler@synopsys.com>
+Date: Fri, 1 Mar 2019 17:00:57 -0500
+Subject: [PATCH] Remove phase checks for ORIGIN and LENGTH evaluation.
+
+---
+ ld/ldexp.c | 40 ++++++++++++++++++----------------------
+ 1 file changed, 18 insertions(+), 22 deletions(-)
+
+diff --git a/ld/ldexp.c b/ld/ldexp.c
+index 60b17ef5764a..daf0f2e38235 100644
+--- a/ld/ldexp.c
++++ b/ld/ldexp.c
+@@ -864,34 +864,30 @@ fold_name (etree_type *tree)
+
+     case LENGTH:
+       {
+-      if (expld.phase != lang_first_phase_enum)
+-	{
+-	  lang_memory_region_type *mem;
++	lang_memory_region_type *mem;
+
+-	  mem = lang_memory_region_lookup (tree->name.name, FALSE);
+-	  if (mem != NULL)
+-	    new_number (mem->length);
+-	  else
+-	    einfo (_("%F%P:%pS: undefined MEMORY region `%s'"
+-		     " referenced in expression\n"),
+-		   tree, tree->name.name);
+-	}
++	mem = lang_memory_region_lookup (tree->name.name, FALSE);
++	if (mem != NULL)
++	  new_number (mem->length);
++	else
++	  einfo (_("%F%P:%pS: undefined MEMORY region `%s'"
++		   " referenced in expression\n"),
++		 tree, tree->name.name);
+       }
+       break;
+
+     case ORIGIN:
+-      if (expld.phase != lang_first_phase_enum)
+-	{
+-	  lang_memory_region_type *mem;
++      {
++	lang_memory_region_type *mem;
+
+-	  mem = lang_memory_region_lookup (tree->name.name, FALSE);
+-	  if (mem != NULL)
+-	    new_rel_from_abs (mem->origin);
+-	  else
+-	    einfo (_("%F%P:%pS: undefined MEMORY region `%s'"
+-		     " referenced in expression\n"),
+-		   tree, tree->name.name);
+-	}
++	mem = lang_memory_region_lookup (tree->name.name, FALSE);
++	if (mem != NULL)
++	  new_rel_from_abs (mem->origin);
++	else
++	  einfo (_("%F%P:%pS: undefined MEMORY region `%s'"
++		   " referenced in expression\n"),
++		 tree, tree->name.name);
++      }
+       break;
+
+     case CONSTANT:
+--
+2.19.2
