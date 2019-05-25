@@ -10,6 +10,11 @@ DEPENDS += "libgcc newlib"
 
 SRC_URI += "file://0001-HACKS.patch"
 
-do_configure () {
+do_configure() {
 	oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
+}
+
+do_compile() {
+	unset LDFLAGS
+	oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET} ${B}/u-boot.hex
 }
